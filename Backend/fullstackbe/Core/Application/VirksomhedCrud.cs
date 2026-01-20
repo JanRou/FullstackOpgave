@@ -1,4 +1,5 @@
 ﻿using fullstackbe.Core.Domain;
+using fullstackbe.Gateways.Cvrapi;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Runtime.ConstrainedExecution;
 
@@ -17,7 +18,7 @@ namespace fullstackbe.Core.Application
         /// </summary>
         /// <param name="virksomhed"></param>
         /// <returns>Ny virksomhed</returns>
-        Task<Virksomhed?> Create(int cvr);
+        Task<Virksomhed?> Create(int cvr, CancellationToken token);
 
         /// <summary>
         /// Opdaterer eksisterende virksomhed, hvis den eksisterer
@@ -37,9 +38,10 @@ namespace fullstackbe.Core.Application
     public class VirksomhedCrud : IVirksomhedCrud
     {
         public static List<Virksomhed> virksomheder = new List<Virksomhed>();
+        private readonly ICvrapi cvrapi;
 
         // Til at teste med for sjov
-        public VirksomhedCrud()
+        public VirksomhedCrud(ICvrapi cvrapi)
         {
             if (virksomheder.Count == 0)
             {
@@ -49,6 +51,8 @@ namespace fullstackbe.Core.Application
                 virksomheder.Add(new Virksomhed(51261040, "TeamKey ApS", adresse: "Søndersøparken 19F, 1. 3.", 8800, "Viborg"));
                 virksomheder.Add(new Virksomhed(12345678, "Elis ApS", adresse: "Elishøj 14", 8541, "Skødstrup"));
             }
+
+            this.cvrapi = cvrapi;
         }
 
         public async Task<IEnumerable<Virksomhed>> GetAll()
@@ -59,19 +63,21 @@ namespace fullstackbe.Core.Application
             return virksomheder;
         }
 
-        public async Task<Virksomhed?> Create(int cvr)
+        public async Task<Virksomhed?> Create(int cvr, CancellationToken token)
         {
             //1. Slå virksomheden op, hvis den ikke er der trin 2, ellers ud med fejl
             Virksomhed? result = null;
             bool notExists = ! virksomheder.Any( v => v.Cvr == cvr);
             if (notExists)
             {
-                //2. Hent virksomhedsdata fra cvrapi
-                // TODO kod rigtigt med et cvrapi kald
-                result = new Virksomhed(cvr, "navn", "adresse", 1000, "by");
+                //2. Hent virksomhedsdata fra cvrapi                
+                result = await cvrapi.Get(cvr, token);
                 //3. Gem i database
-                virksomheder.Add(result);
-                // TODO map fra dao til dto med db
+                // TODO map fra dto til dao og gem i db
+                if (result != null)
+                {
+                    virksomheder.Add(result);
+                }                                
             }
 
             //(4. Returner ny virksomhed), hvis den ikke var der i forvejen

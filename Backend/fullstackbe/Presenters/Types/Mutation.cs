@@ -12,7 +12,7 @@ namespace fullstackbe.Presenters.Types
             , IVirksomhedCrud virksomhedCrud
             , CancellationToken cancellationToken)
         {
-            var virksomhedOut = await virksomhedCrud.Create(cvr);
+            var virksomhedOut = await virksomhedCrud.Create(cvr, cancellationToken);
             // TODO Fejl håndtering
             return new VirksomhedPayload(virksomhedOut);
         }

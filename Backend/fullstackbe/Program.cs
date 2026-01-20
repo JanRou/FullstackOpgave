@@ -1,15 +1,20 @@
 using fullstackbe.Core.Application;
 using fullstackbe.Core.Domain;
+using fullstackbe.Gateways.Cvrapi;
 using fullstackbe.Gateways.Data;
 using fullstackbe.Gateways.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
+
+// Konstanter
+string CvrApiUrlFormatter = @"http://cvrapi.dk/api?search={0:D8}&country=dk";
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Opret implementationer i IOC container
 builder.Services.AddScoped<IVirksomhedRepository, VirksomhedRepository>();
 builder.Services.AddScoped<IVirksomhedCrud, VirksomhedCrud>();
+builder.Services.AddSingleton <ICvrapi>(c => new Cvrapi(CvrApiUrlFormatter));
 
 // GraphQl
 
@@ -32,6 +37,7 @@ builder.Services.AddCors(options => {
                 .AllowCredentials();
         });
 });
+
 var app = builder.Build();
 
 app.UseCors("default");
