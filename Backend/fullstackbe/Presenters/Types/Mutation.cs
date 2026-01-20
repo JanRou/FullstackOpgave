@@ -8,11 +8,23 @@ namespace fullstackbe.Presenters.Types
     {
         [Mutation]
         public static async Task<VirksomhedPayload> OpretVirksomhed(
+              int cvr
+            , IVirksomhedCrud virksomhedCrud
+            , CancellationToken cancellationToken)
+        {
+            var virksomhedOut = await virksomhedCrud.Create(cvr);
+            // TODO Fejl håndtering
+            return new VirksomhedPayload(virksomhedOut);
+        }
+
+        [Mutation]
+        public static async Task<VirksomhedPayload> OpdaterVirksomhed(
             VirksomhedInType input
             , IVirksomhedCrud virksomhedCrud
             , CancellationToken cancellationToken)
         {
-            var virksomhedOut = await virksomhedCrud.Create(input.Cvr);
+            var virksomhedIn = new Virksomhed(input.Cvr, input.Navn, input.Adresse, input.Postnummer, input.By);
+            var virksomhedOut = await virksomhedCrud.Update(virksomhedIn);
             // TODO Fejl håndtering
             return new VirksomhedPayload(virksomhedOut);
         }

@@ -10,12 +10,11 @@ namespace fullstackbe.Presenters.Types
             => new Book("C# in depth.", new Author("Jon Skeet"));
 
         [Query]
-        public static async Task<IEnumerable<Virksomhed>> AlleVirksomheder(
+        public static async Task<IEnumerable<Virksomhed>> HentAlleVirksomheder(
               IVirksomhedCrud virksomhedCrud
             , CancellationToken cancellationToken)
         {
             return await virksomhedCrud.GetAll(); // TODO (cancellationToken);
         }
-
     }
 }

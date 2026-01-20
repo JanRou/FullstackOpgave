@@ -1,5 +1,6 @@
 ﻿using fullstackbe.Core.Domain;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Runtime.ConstrainedExecution;
 
 namespace fullstackbe.Core.Application
 {
@@ -23,7 +24,7 @@ namespace fullstackbe.Core.Application
         /// </summary>
         /// <param name="virksomhed"></param>
         /// <returns></returns>
-        Task<Virksomhed> Update(IVirksomhed virksomhed);
+        Task<Virksomhed?> Update(IVirksomhed virksomhed);
 
         /// <summary>
         /// Sletter en eksisterende virksomhed, hvis den eksisterer
@@ -76,12 +77,20 @@ namespace fullstackbe.Core.Application
             return result;
         }
 
-        public async Task<Virksomhed> Update(IVirksomhed virksomhed)
+        public async Task<Virksomhed?> Update(IVirksomhed ny)
         {
+            Virksomhed? result = null;
             //1. Slå virksomheden op, hvis den er der trin 2, ellers ud med fejl
-            //2. Opdater virksomheden med cvrnr i databasen
-            // map fra dao til dto med db
-            throw new NotImplementedException();
+            var gammel = virksomheder.FirstOrDefault(v => v.Cvr == ny.Cvr);
+            if (gammel != null)
+            {
+                //2. Opdater virksomheden med cvrnr i databasen
+                virksomheder.Remove(gammel);
+                result = new Virksomhed(ny.Cvr, ny.Navn, ny.Adresse, ny.Postnummer, ny.By);
+                virksomheder.Add(result);
+                // map fra dao til dto med db
+            }
+            return result;
         }
 
         public async Task<bool> Delete(int cvr)
