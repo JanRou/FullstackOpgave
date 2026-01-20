@@ -16,7 +16,8 @@
         </v-col>
         <v-col cols="4"><v-alert text="Ej færdig kodet" type="warning" closable v-model="ejkodet"> Ny cvr: {{ newCvr }}</v-alert></v-col>
         <v-col cols="12">
-            <v-expansion-panels>
+            <div v-if="$apollo.queries.items.loading">Indlæser virksomheder...</div>
+            <v-expansion-panels v-else>
                 <v-expansion-panel
                     v-for="(virksomhed, index) in items"
                     :key="virksomhed.cvr"
@@ -31,7 +32,7 @@
                         <p>
                             <i>Cvr-nr:</i> {{ virksomhed.cvr }}
                             <br/>                        
-                            <i>Adresse:</i> {{ virksomhed.adresse }}, {{ virksomhed.postnr }} {{ virksomhed.by }}
+                            <i>Adresse:</i> {{ virksomhed.adresse }}, {{ virksomhed.postnummer }} {{ virksomhed.by }}
                             <v-btn
                                 variant="text"
                                 icon
@@ -79,6 +80,16 @@
               v-model="proxyModel.value.adresse"
               label="Ret adresse"
             ></v-text-field>
+
+            <v-text-field
+              v-model.number="proxyModel.value.postnummer"
+              label="Ret postnummer"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="proxyModel.value.by"
+              label="Ret by"
+            ></v-text-field>
           </v-card-text>
 
           <template v-slot:actions>
@@ -104,7 +115,7 @@
         <v-card title="Opret virksomhed">
           <v-card-text>
             <v-text-field
-              v-model="proxyCvr.value"
+              v-model.number="proxyCvr.value"
               label="CVR"
             ></v-text-field>
           </v-card-text>
@@ -123,21 +134,28 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-interface Virksomhed {
-    cvr: number;
-    navn: string;
-    adresse: string;
-    postnr: number;
-    by: string;
-}
+import { HENT_ALLE_VIRKSOMHEDER } from '@/graphql/queries';
+import { OPRET_VIRKSOMHED, OPDATER_VIRKSOMHED, SLET_VIRKSOMHED } from '@/graphql/mutations';
+import type { Virksomhed, VirksomhedInTypeInput } from '@/graphql/types';
 
 interface Model {
     navn: string,
     adresse: string
+    postnummer: number
+    by: string
 }
 
-export default defineComponent({ 
+export default defineComponent({
+    apollo: {
+        items: {
+            query:  HENT_ALLE_VIRKSOMHEDER,
+            update(data) {
+                return data.hentAlleVirksomheder.map((v: any) => ({
+                    cvr: v.cvr, navn: v.navn, adresse: v.adresse, postnummer: v.postnummer, by: v.by,
+                }));
+            },
+        }
+    },
     data() {
         return {
             editDialog: false,
@@ -151,40 +169,76 @@ export default defineComponent({
                 navn: '',
                 adresse: '',
             } as Model, 
-            // Data: Et array af virksomheder (der skal komme fra graphql ???)
-            items: [
-                { cvr: 42954616, navn: 'STILLING KØL & EL ApS', adresse: 'Niels Bohrs Vej 15A', postnr: 8660 , by: 'Skanderborg'},
-                { cvr: 17477994, navn: 'Risskov El & VVS & Ventilation A/S', adresse: 'Ved Skoven 45, 1', postnr: 8541 , by: 'Skødstrup'},
-                { cvr: 28106661, navn: 'Skødstrup Tandklinik ApS.', adresse: 'Grenåvej 728', postnr: 8541 , by: 'Skødstrup'},
-                { cvr: 51261040, navn: 'TeamKey ApS', adresse: 'Søndersøparken 19F, 1. 3.', postnr: 8800 , by: 'Viborg'},
-            ] as Virksomhed[],
+            items: [] as Virksomhed[],
         };
     },
     methods: {
-        create () : void {
+        async create () : Promise<void> {
             this.newCvr = 0;
             this.createDialog = true;
         },
-        getNew () : void {
-            this.createDialog = false;            
-            this.ejkodet = true;
+        async getNew () : Promise<void> {
+            if (this.newCvr !== 0) {
+                try {
+                    await this.$apollo.mutate({
+                        mutation: OPRET_VIRKSOMHED,
+                        variables: { cvr: Number(this.newCvr) },
+                        update: (cache, { data: { opretVirksomhed } }) => {
+                            this.items.push(opretVirksomhed.virksomhed);
+                        },
+                    });
+                } catch (error) {
+                     console.error("Fejl ved oprettelse af virksomhed:", error);
+                }
+                // Hmm Luk dialogen selvom det fejlede, eller er det bedre at lade den stå?
+                this.createDialog = false;
+            }
         },
-        edit (item: Virksomhed) : void {
+        async edit (item: Virksomhed) : Promise<void> {
             this.selected = item.cvr;
-            this.model = { navn: item.navn, adresse: item.adresse };
+            this.model = { navn: item.navn, adresse: item.adresse, postnummer: item.postnummer, by: item.by };
             this.editDialog = true;
         },
-        save() : void { // Update item data
-            this.editDialog = false
+        async save() : Promise<void> { // Update item data
+            if (this.selected) {
+                try {
+                    const input: VirksomhedInTypeInput = {
+                        cvr: Number(this.selected), // skal ikke ændres
+                        navn: this.model.navn,
+                        adresse: this.model.adresse,
+                        postnummer: Number(this.model.postnummer),
+                        by: this.model.by,
+                    };
 
-            this.items = this.items.map(item =>
-                item.cvr === this.selected
-                    ? { ...item, navn: this.model.navn, adresse: this.model.adresse }
-                    : item
-            )
+                    await this.$apollo.mutate({
+                        mutation: OPDATER_VIRKSOMHED,
+                        variables: {
+                            input,
+                        },
+                        update: (cache, { data: { opdaterVirksomhed } }) => {
+                            const index = this.items.findIndex((v) => v.cvr === this.selected);
+                            if (index !== -1) {
+                                this.items.splice(index, 1, opdaterVirksomhed.virksomhed);
+                            }
+                        },
+                    });
+                } catch (error) {
+                    console.error("Fejl ved opdatering af virksomhed:", error);
+                }
+                this.editDialog = false;
+            }                        
         },
-        remove (cvr: number) {
-            this.items = this.items.filter( (item) => item.cvr !== cvr)
+        async remove (cvr: number) : Promise<void> {
+            try {
+                await this.$apollo.mutate({
+                    mutation: SLET_VIRKSOMHED,
+                    variables: { cvr: Number(cvr) },
+                    update: (cache ) => {
+                        this.items = this.items.filter((item) => item.cvr !== cvr);                    },
+                });
+            } catch(error) {
+                console.error("Fejl ved sletning af virksomhed:", error); 
+            }
         },
     },
 });

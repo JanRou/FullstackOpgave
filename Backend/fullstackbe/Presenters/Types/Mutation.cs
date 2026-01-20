@@ -31,11 +31,11 @@ namespace fullstackbe.Presenters.Types
 
         [Mutation]
         public static async Task<bool> SletVirksomhed(
-            VirksomhedInType input
+             int cvr
             , IVirksomhedCrud virksomhedCrud
             , CancellationToken cancellationToken)
         {
-            bool result = await virksomhedCrud.Delete(input.Cvr);
+            bool result = await virksomhedCrud.Delete(cvr);
             return result;
         }
 

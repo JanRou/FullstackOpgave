@@ -11,9 +11,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     ViksomhedMain: typeof import('./src/components/ViksomhedMain.vue')['default']
-    VirksomhedDetail: typeof import('./src/components/VirksomhedDetail.vue')['default']
-    VirksomhedEdit: typeof import('./src/components/VirksomhedEdit.vue')['default']
   }
 }

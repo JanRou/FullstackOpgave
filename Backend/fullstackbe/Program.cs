@@ -18,9 +18,23 @@ builder.AddGraphQL().AddTypes();
 
 // SQLite, check lige hvor filen havner
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=.\\data\\database.db")); 
+    options.UseSqlite("Data Source=.\\data\\database.db"));
 
+// TODO Begræns adgang tillad alt mht. CORS
+builder.Services.AddCors(options => {
+    options.AddPolicy(
+        name: "default",
+        builder => {
+            builder.WithOrigins("https://localhost:5095;http://localhost:5095")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)  // Vigtig
+                .AllowCredentials();
+        });
+});
 var app = builder.Build();
+
+app.UseCors("default");
 
 app.MapGraphQL();
 

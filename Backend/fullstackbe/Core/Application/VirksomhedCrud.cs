@@ -47,6 +47,7 @@ namespace fullstackbe.Core.Application
                 virksomheder.Add(new Virksomhed(17477994, "Risskov El & VVS & Ventilation A/S", "Ved Skoven 45, 1", 8541, "Skødstrup"));
                 virksomheder.Add(new Virksomhed(28106661, "Skødstrup Tandklinik ApS.", "Grenåvej 728", 8541, "Skødstrup"));
                 virksomheder.Add(new Virksomhed(51261040, "TeamKey ApS", adresse: "Søndersøparken 19F, 1. 3.", 8800, "Viborg"));
+                virksomheder.Add(new Virksomhed(12345678, "Elis ApS", adresse: "Elishøj 14", 8541, "Skødstrup"));
             }
         }
 

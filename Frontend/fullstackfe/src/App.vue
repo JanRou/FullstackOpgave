@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <HelloWorld /> -->
        <ViksomhedMain />
     </v-main>
   </v-app>
