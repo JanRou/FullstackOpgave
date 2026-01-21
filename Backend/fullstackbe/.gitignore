@@ -1,0 +1,2 @@
+# ignore data folder with SQLite database
+data/
