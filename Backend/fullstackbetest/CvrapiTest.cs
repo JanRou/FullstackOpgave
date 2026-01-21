@@ -22,13 +22,12 @@ namespace fullstackbetest
         }
 
         [Fact]
-        //[Theory]
         public void GetStringFromJsonElementTest()
         {
             // Arrange
             string cvrapiUrlFormatter = @"http://cvrapi.dk/api?search={0:D8}&country=dk";
             var dut = new Cvrapi(cvrapiUrlFormatter);
-            JsonDocument document = JsonDocument.Parse(jsonResponse);
+            JsonDocument document = JsonDocument.Parse(jsonResponseCarletti);
             JsonElement root = document.RootElement;
 
             // Act
@@ -39,13 +38,12 @@ namespace fullstackbetest
             Assert.Equal("CARLETTI A/S", result);
         }
         [Fact]
-        //[Theory]
         public void GetIntFromJsonElementTest()
         {
             // Arrange
             string cvrapiUrlFormatter = @"http://cvrapi.dk/api?search={0:D8}&country=dk";
             var dut = new Cvrapi(cvrapiUrlFormatter);
-            JsonDocument document = JsonDocument.Parse(jsonResponse);
+            JsonDocument document = JsonDocument.Parse(jsonResponseCarletti);
             JsonElement root = document.RootElement;
 
             // Act
@@ -56,15 +54,14 @@ namespace fullstackbetest
             Assert.Equal(8541, result);
         }
         [Fact]
-        //[Theory]
-        public void ParseJsonTest()
+        public void ParseJsonCarlettiTest()
         {
             // Arrange
             string cvrapiUrlFormatter = @"http://cvrapi.dk/api?search={0:D8}&country=dk";
             var dut = new Cvrapi(cvrapiUrlFormatter);
 
             // Act
-            var (name, address, zipcode, city) = dut.ParseJson(jsonResponse);
+            var (name, address, zipcode, city) = dut.ParseJson(jsonResponseCarletti);
 
             // Assert
             Assert.NotEmpty(name);
@@ -72,9 +69,33 @@ namespace fullstackbetest
             Assert.NotEqual(0, zipcode);
             Assert.NotEmpty(city);
             Assert.Equal("CARLETTI A/S", name);
+            Assert.Equal("Grenåvej 641", address);
+            Assert.Equal(8541, zipcode);
+            Assert.Equal("Skødstrup", city);
         }
 
-        public string jsonResponse = @"{
+        [Fact]
+        public void ParseJsonCryptografikTest()
+        {
+            // Arrange
+            string cvrapiUrlFormatter = @"http://cvrapi.dk/api?search={0:D8}&country=dk";
+            var dut = new Cvrapi(cvrapiUrlFormatter);
+
+            // Act
+            var (name, address, zipcode, city) = dut.ParseJson(jsonCryptographic);
+
+            // Assert
+            Assert.NotEmpty(name);
+            Assert.NotEmpty(address);
+            Assert.NotEqual(0, zipcode);
+            Assert.NotEmpty(city);
+            Assert.Equal("Cryptographic ApS", name);
+            Assert.Equal("Helsingforsgade 5A, 2. 1.", address);
+            Assert.Equal(8200, zipcode);
+            Assert.Equal("Aarhus N", city);
+        }
+
+        public string jsonResponseCarletti = @"{
    ""vat"": 89563518,
    ""name"": ""CARLETTI A/S"",
    ""address"": ""Grenåvej 641"",
@@ -159,5 +180,54 @@ namespace fullstackbetest
    ""t"": 100,
    ""version"": 6
 }";
+
+        public string jsonCryptographic = @"{
+   ""vat"": 44546892,
+   ""name"": ""Cryptographic ApS"",
+   ""address"": ""Helsingforsgade 5A, 2. 1."",
+   ""zipcode"": ""8200"",
+   ""city"": ""Aarhus N"",
+   ""cityname"": null,
+   ""protected"": true,
+   ""phone"": 50588595,
+   ""email"": ""mathias@hall-andersen.dk"",
+   ""fax"": null,
+   ""startdate"": ""05/01 - 2024"",
+   ""enddate"": null,
+   ""employees"": 1,
+   ""addressco"": null,
+   ""industrycode"": 622000,
+   ""industrydesc"": ""Computerkonsulentbistand og forvaltning af computerfaciliteter"",
+   ""companycode"": 80,
+   ""companydesc"": ""Anpartsselskab"",
+   ""creditstartdate"": null,
+   ""creditbankrupt"": false,
+   ""creditstatus"": null,
+   ""owners"": null,
+   ""productionunits"": [
+      {
+         ""pno"": 1029981414,
+         ""main"": false,
+         ""name"": ""Cryptographic ApS"",
+         ""address"": ""Helsingforsgade 5A, 2. 1."",
+         ""zipcode"": 8200,
+         ""city"": ""Aarhus N"",
+         ""cityname"": null,
+         ""protected"": true,
+         ""phone"": 50588595,
+         ""email"": ""mathias@hall-andersen.dk"",
+         ""fax"": null,
+         ""startdate"": ""05/01 - 2024"",
+         ""enddate"": null,
+         ""employees"": 1,
+         ""addressco"": null,
+         ""industrycode"": 622000,
+         ""industrydesc"": ""Computerkonsulentbistand og forvaltning af computerfaciliteter""
+      }
+   ],
+   ""t"": 100,
+   ""version"": 6
+}";
+
     }
 }

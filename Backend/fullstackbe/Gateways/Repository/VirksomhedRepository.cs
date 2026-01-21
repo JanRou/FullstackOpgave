@@ -1,6 +1,7 @@
 ﻿using fullstackbe.Core.Domain;
 using fullstackbe.Gateways.Dal;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Runtime.ConstrainedExecution;
 
 namespace fullstackbe.Gateways.Repository
 {
@@ -16,21 +17,21 @@ namespace fullstackbe.Gateways.Repository
         /// Henter en virksomhed i databasen
         /// </summary>
         /// <returns>Virksomheden ellers null</returns>
-        Task<VirksomhedDao> Get(int cvr);
+        Task<VirksomhedDao?> Get(int cvr);
 
         /// <summary>
         /// Opretter en ny virksomhed, hvis den ikke er i databasen.
         /// </summary>
         /// <param name="virksomhed"></param>
         /// <returns>Ny virksomhed</returns>
-        Task<VirksomhedDao> Create(VirksomhedDao virksomhed);
+        Task<VirksomhedDao?> Create(VirksomhedDao virksomhed);
 
         /// <summary>
         /// Opdaterer eksisterende virksomhed, hvis den eksisterer
         /// </summary>
         /// <param name="virksomhed"></param>
         /// <returns></returns>
-        Task<VirksomhedDao> Update(VirksomhedDao virksomhed);
+        Task<VirksomhedDao?> Update(VirksomhedDao virksomhed);
 
         /// <summary>
         /// Sletter en eksisterende virksomhed, hvis den eksisterer
@@ -43,34 +44,57 @@ namespace fullstackbe.Gateways.Repository
 
     public class VirksomhedRepository : IVirksomhedRepository
     {
+        private AppDbContext db;
+
         public VirksomhedRepository(AppDbContext db)
         {
             db.Database.EnsureCreated();
+            this.db = db;
         }
 
         public async Task<IEnumerable<VirksomhedDao>> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Virksomheds;
         }
 
-        public async Task<VirksomhedDao> Get(int cvr)
+        public async Task<VirksomhedDao?> Get(int cvr)
         {
-            throw new NotImplementedException();
+            return db.Virksomheds.Where(v => v.Cvr == cvr).FirstOrDefault();
         }
 
         public async Task<VirksomhedDao> Create(VirksomhedDao virksomhed)
         {
-            throw new NotImplementedException();
+            // Repository har kontrolleret at virksomheden er ny, ellers vil en dublet fejle pga. primary key dublet
+            db.Add(virksomhed);  
+            await db.SaveChangesAsync();
+            return virksomhed;
         }
 
         public async Task<bool> Delete(int cvr)
         {
-            throw new NotImplementedException();
+            var virksomhed = db.Virksomheds.Where(v => v.Cvr == cvr).FirstOrDefault();
+            bool result = virksomhed != null;
+            if (result)
+            {
+                db.Remove(virksomhed);
+                await db.SaveChangesAsync();
+            }
+            return result;
         }
 
-        public async Task<VirksomhedDao> Update(VirksomhedDao virksomhed)
+        public async Task<VirksomhedDao?> Update(VirksomhedDao virksomhed)
         {
-            throw new NotImplementedException();
+            var existVirksomhed = db.Virksomheds.Where(v => v.Cvr == virksomhed.Cvr).FirstOrDefault();
+
+            if (existVirksomhed != null)
+            {
+                existVirksomhed.Navn = virksomhed.Navn;
+                existVirksomhed.Adresse = virksomhed.Adresse;
+                existVirksomhed.Postnummer = virksomhed.Postnummer;
+                existVirksomhed.By = virksomhed.By;
+                await db.SaveChangesAsync();
+            }
+            return existVirksomhed;
         }
     }
 }

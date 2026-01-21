@@ -40,9 +40,15 @@ namespace fullstackbe.Gateways.Cvrapi
 
         public int GetIntFromJsonElement(JsonElement root, string element)
         {
-            // TODO tallet kan være i en tekststreng, så kan man konvertere den ...
-            return root.GetProperty(element).ValueKind == JsonValueKind.Number ?
-                            root.GetProperty(element).GetInt32() : 0;
+            int result = 0;
+
+            result = root.GetProperty(element).ValueKind switch {
+                JsonValueKind.Number => root.GetProperty(element).GetInt32(),
+                JsonValueKind.String => int.Parse(root.GetProperty(element).GetString()),
+                _ => throw new NotSupportedException($"Uventet ValueKind: {root.GetProperty(element).ValueKind}")
+            };
+
+            return result;
         }
 
         public (string name, string address, int zipcode, string city) ParseJson(string json)
@@ -64,8 +70,7 @@ namespace fullstackbe.Gateways.Cvrapi
                 {                    
                     httpClient.DefaultRequestHeaders.Add("User-Agent", "FullstackOpgave"+cvr.ToString());
                     string url = FormatUrl(cvr);
-                    var httpResponse = await httpClient.GetAsync( url, cancellationToken);
-                    // hmm man er afhængig af at de formatere JSON ens, da konverteringen er striks uden opsætning
+                    var httpResponse = await httpClient.GetAsync( url, cancellationToken);                    
                     if (httpResponse != null)
                     {
                         string responseBody = await httpResponse.Content.ReadAsStringAsync();
