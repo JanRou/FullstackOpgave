@@ -1,6 +1,5 @@
 ﻿using fullstackbe.Core.Domain;
 using fullstackbe.Gateways.Dal;
-using fullstackbe.Gateways.Data;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace fullstackbe.Gateways.Repository

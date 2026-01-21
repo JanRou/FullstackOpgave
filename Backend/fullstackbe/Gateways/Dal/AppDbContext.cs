@@ -1,8 +1,7 @@
-﻿using fullstackbe.Gateways.Dal;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace fullstackbe.Gateways.Data
+namespace fullstackbe.Gateways.Dal
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {

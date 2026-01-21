@@ -1,7 +1,7 @@
 using fullstackbe.Core.Application;
 using fullstackbe.Core.Domain;
 using fullstackbe.Gateways.Cvrapi;
-using fullstackbe.Gateways.Data;
+using fullstackbe.Gateways.Dal;
 using fullstackbe.Gateways.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
