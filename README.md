@@ -59,14 +59,16 @@ Frontend kører en web-side på url http://localhost:3000/. Den er sat op til at
 
 Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _src_.
 
-Noter at, jeg har ikke testet proceduren.
+Noter, at jeg ikke har testet proceduren.
 
 ## Frontend
 Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde et panel ud og se detaljer for virksomheden, som cvr-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
 
 Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout samt programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
 
-Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vue, som ligger i _./src/components_ folderen. I folderen  _./src/graphql_ finder man graphql query, mutationer og typer.
+Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vue, som ligger i _./src/components_ folderen. I folderen  _./src/graphql_ finder man graphql query, mutationer og typer. I kodefilen apollo-client.ts er opsætningen af graphql og backend's endpoint.
+
+Der er ingen login side.
 
 ## Backend
 I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at under operationerne.
@@ -82,6 +84,7 @@ Backend er struktureret i stil med en clean code folder struktur:
  	Presenters
 		Types - GraphQL forespørgsler Query og Mutation
 
+I Program.cs finder man opsætningen af backend herunder at tillade alle former for adgange mht. CORS, Cross-Origin Resource sharing. Der er ingen sikring af adgang.
 
 
 		
