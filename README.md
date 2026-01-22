@@ -63,7 +63,7 @@ Noter, at jeg ikke har testet proceduren.
 
 Til min bærbare med Ubuntu skulle nedenstående procedure til. 
 
- ###Backend
+ ### Backend
  Der manglede .Net SDK, runtime og aspnetcore i version 8 og 9. Og databasen skulle oprettes med dotnet-ef tool, som heller ikke var installeret.
  1. Installer dotnet-sdk-8 og 9, aspnetcore 8 og 9 og runtime 8 og 9 bash:
  - sudo add-apt-repository ppa:dotnet/backports
