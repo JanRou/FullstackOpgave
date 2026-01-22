@@ -10,7 +10,7 @@ I forbindelse med anden samtale hos Ivaldi ApS har jeg løst følgende opgave st
 >- Vue.js
 >- Typescript
 >- Vuetify
->Projektet skal være veldokumenteret og enten afleveres via github eller zip til <email> senest torsdag d. 22. januar kl. 12."
+>Projektet skal være veldokumenteret og enten afleveres via github eller zip til email senest torsdag d. 22. januar kl. 12."
 
 Denne Readme er dokumentation for min løsning af opgaven.
 
