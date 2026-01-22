@@ -28,10 +28,11 @@ Jeg har defineret et domæne som vist herunder, hvor en bruger administrere en l
  Løsningen gemmer virksomhederne i en database, hvor løsningen henter virksomhedernes data fra web-sitet cvrapi.dk med cvr-nummeret som nøgle.
 
  Du kan arbejde med virksomhederne som følger:
- * Oprette en ny virksomhed i databasen ved at indtaste dens cvr-nummer,
- * Redigere en virksomhed,
- * Liste virksomheder,
- * Slette en virksomhed.
+
+  * Oprette en ny virksomhed i databasen ved at indtaste dens cvr-nummer,
+  * Redigere en virksomhed,
+  * Liste virksomheder,
+  * Slette en virksomhed.
 
 Du har en enkel og simpel web-side, hvor du kan udføre alle operationerne.
 
