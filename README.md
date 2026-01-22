@@ -140,7 +140,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 	    }
 	  }
    ```
-  ###Frontend
+  ### Frontend
   1. Installer npm og node i bash:
  - sudo apt install npm
  - sudo apt install nodejs
@@ -150,6 +150,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 3. Kør
 - npm run dev
+
+4. Start browser med url localhost:3000
  
 ## Frontend
 Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde et panel ud og se detaljer for virksomheden som CVR-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
