@@ -25,16 +25,16 @@ Jeg har defineret et domæne som vist herunder, hvor en bruger administrere en l
                                       1         
 					               [navn, Adresse, postnumer, by]
 
- Løsningen gemmer virksomhederne i en database, hvor løsningen henter virksomhedernes data fra web-sitet cvrapi.dk med cvr-nummeret som nøgle.
+ Løsningen gemmer virksomhederne i en database, hvor den henter virksomhedernes data fra web-sitet cvrapi.dk med cvr-nummeret som nøgle.
 
  Du kan arbejde med virksomhederne som følger:
 
-  * Oprette en ny virksomhed i databasen ved at indtaste dens cvr-nummer,
-  * Redigere en virksomhed,
-  * Liste virksomheder,
-  * Slette en virksomhed.
+  * Oprette en ny virksomhed i databasen ved at indtaste dens cvr-nummer
+  * Redigere en virksomheds oplysninger dog ikke cvr-nummer
+  * Liste virksomheder ved deres navne
+  * Slette en virksomhed
 
-Du har en enkel og simpel web-side, hvor du kan udføre alle operationerne.
+I en enkel web-side kan udu dføre alle operationerne.
 
 Stakken i løsningen har Vue i toppen som frontend mod brugeren implementeret i delprojektet _fullstackfe_. Frontend kommunikerer med backend, som er implementeret i delprojektet _fullstackbe_.
 
@@ -53,11 +53,11 @@ Du bør have følgende klar:
 5. Start frontend med npm run dev
 6. Åben hjemmesiden på localhost:3000, hvor frontend skulle køre
 
-Backend åbner et GraphQL Nitro web-side, hvor man afvikle forespørgsler direkte mod backend i GraphQL SDL, schema defintion language. Backend har endpoint url http://localhost:5095/graphql/.
+Backend åbner en GraphQL Nitro web-side, hvor man kan afvikle forespørgsler direkte mod backend i SDL, GraphQL schema defintion language. Backend har endpoint url http://localhost:5095/graphql/.
 
-Frontend kører en web-side på url http://localhost:3000/. Den er sat op til at gå på backend graphql endpoint.
+Frontend kører en web-side på url http://localhost:3000/. Den er sat op til at gå på backend's graphql endpoint.
 
-Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _src/components_.
+Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _./src/components_.
 
 Noter, at jeg ikke har testet proceduren.
 
@@ -71,18 +71,19 @@ Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vu
 Der er ingen login side.
 
 ## Backend
-I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at udføre operationerne med.
+I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQLite database, hvor den bruger Microsoft Entity Framework Core til at tilgå databasen.
 
 Backend er struktureret i stil med en clean code folder struktur:
-	Core
-		Application - Virksomheds operationer i VirksimhedCrud.cs
-		Domain - Entiteten Virksomhed Virksomhed.cs
- 	Gateways
-		CVRAPI - Integration til web-sitet cvrapi.dk i Cvrapi.cs
-		Dal - Data access layer med AppDbContext.cs og VirksomhedDao.cs med data access object
-		Repository - Entity Framework Core operationer at liste, oprette, rediger og slette virksomheder i databasen i VirksomhedRepository.cs
- 	Presenters
-		Types - GraphQL forespørgsler Query.cs og Mutationcs samt input type og payload i VirksomhedInType.cs
+
+	- Core
+		- Application - Virksomheds operationer i VirksimhedCrud.cs
+		- Domain - Entiteten Virksomhed Virksomhed.cs
+ 	- Gateways
+		- CVRAPI - Integration til web-sitet cvrapi.dk i Cvrapi.cs
+		- Dal - Data access layer med AppDbContext.cs og VirksomhedDao.cs med data access object
+		- Repository - Entity Framework Core operationer at liste, oprette, rediger og slette virksomheder i databasen i VirksomhedRepository.cs
+ 	- Presenters
+		- Types - GraphQL forespørgsler Query.cs og Mutationcs samt input type og payload i VirksomhedInType.cs
 
 I Program.cs finder man opsætningen af backend herunder at tillade alle former for adgange mht. CORS, Cross-Origin Resource sharing. Der er ingen sikring af adgang.
 
