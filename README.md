@@ -53,14 +53,20 @@ Du bør have følgende klar:
 5. Start frontend med npm run dev
 6. Åben hjemmesiden på localhost:3000, hvor frontend skulle køre
 
+Backend åbner et GraphQL Nitro web-side, hvor man afvikle forespørgsler direkte mod backend i GraphQL SDL, schema defintion language. Backend har endpoint url http://localhost:5095/graphql/.
+
+Frontend kører en web-side på url http://localhost:3000/. Den er sat op til at gå på backend graphql endpoint.
+
 Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _src_.
 
-Noter at, jeg har ikke test procduren.
+Noter at, jeg har ikke testet proceduren.
 
 ## Frontend
-Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde ud et panel og se detaljer for virksomheden, som cvr-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
+Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde et panel ud og se detaljer for virksomheden, som cvr-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
 
-Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout og programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
+Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout samt programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
+
+Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vue, som ligger i _./src/components_ folderen. I folderen  _./src/graphql_ finder man graphql query, mutationer og typer.
 
 ## Backend
 I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at under operationerne.
