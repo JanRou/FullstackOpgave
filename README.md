@@ -65,77 +65,80 @@ Til min bædbare med Ubuntu skulle følgende procedure til:
 
 Backend:
  1. Installer dotnet-sdk-8 og 9, aspnetcore 8 og 9 og runtime 8 og 9 bash:
-sudo add-apt-repository ppa:dotnet/backports
-sudo apt-get update &&   sudo apt-get install -y dotnet-sdk-9.0
-sudo apt-get update &&   sudo apt-get install -y aspnetcore-runtime-9.0
-sudo apt-get install -y dotnet-runtime-9.0
-sudo apt-get update &&   sudo apt-get install -y dotnet-sdk-8.0
-sudo apt-get install -y aspnetcore-runtime-8.0
-sudo apt-get update
+ - sudo add-apt-repository ppa:dotnet/backports
+ - sudo apt-get update &&   sudo apt-get install -y dotnet-sdk-9.0
+ - sudo apt-get update &&   sudo apt-get install -y aspnetcore-runtime-9.0
+ - sudo apt-get install -y dotnet-runtime-9.0
+ - sudo apt-get update &&   sudo apt-get install -y dotnet-sdk-8.0
+ - sudo apt-get install -y aspnetcore-runtime-8.0
+ - sudo apt-get update
 
  2. I Visual Studio Code, VSC, terminal restore pakker og byg
-dotnet restore
-dotnet build
+ - dotnet restore
+ - dotnet build
 
  3. Installer dotnet-ef tool
-dotnet tool install --global dotnet-ef
+ - dotnet tool install --global dotnet-ef
 
  4. Check migrationer
-dotnet ef migrations list
+ - dotnet ef migrations list
 
  5. Ret database stien til linux i Program.cs:
+```
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=./data/database.db"));
-
+    options.UseSqlite("Data Source=./data/database.db"));`
+```
  6. Kør migrationer
-dotnet build
-dotnet ef database update
+ - dotnet build
+ - dotnet ef database update
 
- 7. Start applikationen og åben et browser vindue, url http://localhost:5095/graphql
-ASPNETCORE_URLS="http://localhost:5095" dotnet run & xdg-open http://localhost:5095/graphql
+ 7. Start applikationen og åben et browser, url http://localhost:5095/graphql
+ - ASPNETCORE_URLS="http://localhost:5095" dotnet run & xdg-open http://localhost:5095/graphql
 
  8. Test i Nitro GraphQL, hent allevirksomheder
-query {
-  hentAlleVirksomheder {
-    adresse
-    by
-    cvr
-    navn
-    postnummer
-  }
-}
+	`query {
+	  hentAlleVirksomheder {
+	    adresse
+	    by
+	    cvr
+	    navn
+	    postnummer
+	  }
+	}`
 
-9. Opret envirksomhed
-mutation OpretVirksomhed($cvr: Int!) {
-   opretVirksomhed(cvr: $cvr) {
-    virksomhed {
-      adresse
-      by
-      cvr
-      navn
-      postnummer
-    }
-  }
-}
-Variables:
-{
-  "cvr": 28106661
-}
-Resultat:
-  "data": {
-    "opretVirksomhed": {
-      "virksomhed": {
-        "adresse": "Grenåvej 728",
-        "by": "Skødstrup",
-        "cvr": 28106661,
-        "navn": "Skødstrup Tandklinik ApS.",
-        "postnummer": 8541
-      }
-    }
-  }
-}
-
-
+9. Og opret en virksomhed:
+	```
+ 	mutation OpretVirksomhed($cvr: Int!) {
+	   opretVirksomhed(cvr: $cvr) {
+	    virksomhed {
+	      adresse
+	      by
+	      cvr
+	      navn
+	      postnummer
+	    }
+	  }
+   ```
+	Variables:
+	```
+	{
+	  "cvr": 28106661
+	}
+    ```
+	Resultat:
+	```
+	"data": {
+	    "opretVirksomhed": {
+	      "virksomhed": {
+	        "adresse": "Grenåvej 728",
+	        "by": "Skødstrup",
+	        "cvr": 28106661,
+	        "navn": "Skødstrup Tandklinik ApS.",
+	        "postnummer": 8541
+	      }
+	    }
+	  }
+   ```
 ## Frontend
 Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde et panel ud og se detaljer for virksomheden som CVR-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
 
