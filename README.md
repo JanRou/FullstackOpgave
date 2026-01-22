@@ -10,7 +10,7 @@ I forbindelse med anden samtale hos Ivaldi ApS har jeg løst følgende opgave st
 >- Vue.js
 >- Typescript
 >- Vuetify
->Projektet skal være veldokumenteret og enten afleveres via github eller zip til karriere@ivaldi.dk senest torsdag d. 22. januar kl. 12."
+>Projektet skal være veldokumenteret og enten afleveres via github eller zip til <email> senest torsdag d. 22. januar kl. 12."
 
 Denne Readme er dokumentation for min løsning af opgaven.
 
@@ -37,7 +37,7 @@ Du har en enkel og simpel web-side, hvor du kan udføre alle operationerne.
 
 Stakken i løsningen har Vue i toppen som frontend mod brugeren implementeret i delprojektet _fullstackfe_. Frontend kommunikerer med backend, som er implementeret i delprojektet _fullstackbe_.
 
-## Sådan udvikler du på projektet
+## Sådan kommer du i gang
 Du bør have følgende klar:
 	* Visual Studio Code
 	* Internet adgang for at oprette nye virksomheder
