@@ -15,7 +15,6 @@ I forbindelse med anden samtale hos Ivaldi ApS har jeg løst følgende opgave st
 Denne Readme er dokumentation for min løsning af opgaven.
 
 ## Overblik
-
 Jeg har defineret et domæne som vist herunder, hvor en bruger administrere en liste af virksomheder identificeret ved virksomhedens CVR-nummer. Virksomheden har et navn, en adresse, et postnummer og by.
 
 	[bruger] 1 -- administrerer -- * [virksomhed] 1 -- har -- 1 [cvr]
@@ -34,17 +33,18 @@ Jeg har defineret et domæne som vist herunder, hvor en bruger administrere en l
  * Liste virksomheder,
  * Slette en virksomhed.
 
-Du har en enkelt web-side, hvor du kan udføre alle operationerne. Siden er organiseret med en overskrift, Virksomheder, og en knap til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift. Brugeren kan folde ud et panel og se detaljer for virksomheden, som cvr-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere og slette virkomheden foldet ud.
+Du har en enkel og simpel web-side, hvor du kan udføre alle operationerne.
 
 Stakken i løsningen har Vue i toppen som frontend mod brugeren implementeret i delprojektet _fullstackfe_. Frontend kommunikerer med backend, som er implementeret i delprojektet _fullstackbe_.
  
 ## Frontend
+Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![alt text](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde ud et panel og se detaljer for virksomheden, som cvr-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere og slette virkomheden foldet ud.
 
-Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout. Den er programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
 
-Jeg har valgt at anvende Options-API for implementationen, da der kun er en side, og det er første gang, sjeg arbejder med Vue. Programmet er struktureret med i en SFC, single-file component, VirksomhedMain, der implemtenterer hele brugerfladen, dog er det meste GraphQL specifikke kode lagt ud i komponenter.
+Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout og programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
+
+Jeg har valgt at anvende Options-API for implementationen, da der kun er en side, og det er første gang for mig med Vue. Programmet er struktureret med i en SFC, single-file component, VirksomhedMain, der implemtenterer brugerfladen. Det specifikke GraphQL kode er lagt ud i komponenter for sig.
 
 ## Backend
-
 I backend er HotChocolate GraphQL brugt som præsentation af en domænet med fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at under operationerne.
 

@@ -38,7 +38,7 @@
                                 icon
                                 @click="edit(virksomhed)"
                                 @click.stop
-                            >
+                            >                                
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
 
