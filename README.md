@@ -61,9 +61,10 @@ Du skulle gerne have løsningen kørende. Og du kan rette i frontend i Virksomhe
 
 Noter, at jeg ikke har testet proceduren.
 
-Til min bædbare med Ubuntu skulle følgende procedure til:
+Til min bærbare med Ubuntu skulle nedenstående procedure til. 
 
-Backend:
+ ###Backend
+ Der manglede .Net SDK, runtime og aspnetcore i version 8 og 9. Og databasen skulle oprettes med dotnet-ef tool, som heller ikke var installeret.
  1. Installer dotnet-sdk-8 og 9, aspnetcore 8 og 9 og runtime 8 og 9 bash:
  - sudo add-apt-repository ppa:dotnet/backports
  - sudo apt-get update &&   sudo apt-get install -y dotnet-sdk-9.0
@@ -139,6 +140,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 	    }
 	  }
    ```
+  ###Frontend
+  1. Installer npm og node i bash:
+ - sudo apt install npm
+ - sudo apt install nodejs
+
+2. Installer pakker til frontend i VSC:
+- npm install
+
+3. Kør
+- npm run dev
+ 
 ## Frontend
 Dialogen er en web-side, der er organiseret med en overskrift, _Virksomheder_, og en knap ![OPRET NY](OpretNy.png) til at oprette en ny virksomhed. Under overskriften er en liste af paneler, der viser alle virksomheder oprettet med deres navn som overskrift i panelerne. Du kan folde et panel ud og se detaljer for virksomheden som CVR-nummer, adresse, postnummer og by. Der er to knapper i panelet til at redigere ![Rediger](Rediger.png) og slette ![Slet](Slet.png) virkomheden foldet ud.
 
