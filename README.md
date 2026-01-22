@@ -1,5 +1,4 @@
-Fullstack opgave
-
+#Fullstack opgave
 I forbindelse med anden samtale hos Ivaldi ApS har jeg løst følgende opgave stillet af Ivaldi:
 
 >Implementér et projekt, hvor man skal kunne håndtere virksomheder med nogle få stamdata. Systemet skal give mulighed for at oprette, redigere, liste og slette virksomheder, samt man skal kunne hente informationer ind fra cvrapi.dk ved indtastning af CVR-nr.
@@ -15,7 +14,7 @@ I forbindelse med anden samtale hos Ivaldi ApS har jeg løst følgende opgave st
 
 Denne Readme er dokumentation for min løsning af opgaven.
 
-Overblik
+##Overblik
 
 Jeg har defineret et domæne som vist herunder, hvor en bruger administrere en liste af virksomheder identificeret ved virksomhedens CVR-nummer. Virksomheden har et navn, en adresse, et postnummer og by.
 
@@ -39,13 +38,13 @@ Du har en enkelt web-side, hvor du kan udføre alle operationerne. Siden er orga
 
 Stakken i løsningen har Vue i toppen som frontend mod brugeren implementeret i delprojektet _fullstackfe_. Frontend kommunikerer med backend, som er implementeret i delprojektet _fullstackbe_.
  
-Frontend
+##Frontend
 
 Til frontend er brugt skabelonen Vuetify for brugerdialoger og layout. Den er programmeret i Typescript, som specificeret i opgaven. Til kommunikationen med backend fra frontend er brugt en Apollo GraphQL klient.
 
 Jeg har valgt at anvende Options-API for implementationen, da der kun er en side, og det er første gang, sjeg arbejder med Vue. Programmet er struktureret med i en SFC, single-file component, VirksomhedMain, der implemtenterer hele brugerfladen, dog er det meste GraphQL specifikke kode lagt ud i komponenter.
 
-Backend
+##Backend
 
 I backend er HotChocolate GraphQL brugt som præsentation af en domænet med fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at under operationerne.
 
