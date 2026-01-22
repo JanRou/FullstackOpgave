@@ -81,9 +81,9 @@ Backend er struktureret i stil med en clean code folder struktur:
  	- Gateways
 		- CVRAPI - Integration til web-sitet cvrapi.dk i Cvrapi.cs
 		- Dal - Data access layer med AppDbContext.cs og VirksomhedDao.cs med data access object
-		- Repository - EFCore funktioner at liste, oprette, rediger og slette virksomheder i VirksomhedRepository.cs
+		- Repository - EFCore funktioner i VirksomhedRepository.cs
  	- Presenters
-		- Types - GraphQL forespørgsler Query.cs og Mutationcs samt input type og payload i VirksomhedInType.cs
+		- Types - GraphQL forespørgsler og typer i Query.cs, Mutationcs og VirksomhedInType.cs
 
 I Program.cs finder man opsætningen af backend herunder at tillade alle former for adgange mht. CORS, Cross-Origin Resource sharing. Der er ingen sikring af adgang.
 
