@@ -71,7 +71,7 @@ Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vu
 Der er ingen login side.
 
 ## Backend
-I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQLite database, hvor den bruger Microsoft Entity Framework Core til at tilgå databasen.
+I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQLite database, hvor den bruger EFCore, Microsoft Entity Framework Core, til at tilgå databasen.
 
 Backend er struktureret i stil med en clean code folder struktur:
 
@@ -81,7 +81,7 @@ Backend er struktureret i stil med en clean code folder struktur:
  	- Gateways
 		- CVRAPI - Integration til web-sitet cvrapi.dk i Cvrapi.cs
 		- Dal - Data access layer med AppDbContext.cs og VirksomhedDao.cs med data access object
-		- Repository - Entity Framework Core operationer at liste, oprette, rediger og slette virksomheder i databasen i VirksomhedRepository.cs
+		- Repository - EFCore funktioner at liste, oprette, rediger og slette virksomheder i VirksomhedRepository.cs
  	- Presenters
 		- Types - GraphQL forespørgsler Query.cs og Mutationcs samt input type og payload i VirksomhedInType.cs
 
