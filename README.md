@@ -57,7 +57,7 @@ Backend åbner et GraphQL Nitro web-side, hvor man afvikle forespørgsler direkt
 
 Frontend kører en web-side på url http://localhost:3000/. Den er sat op til at gå på backend graphql endpoint.
 
-Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _src_.
+Du skulle gerne have løsningen kørende. Og du kan rette i frontend i VirksomhedMain.vue i folderen _src/components_.
 
 Noter, at jeg ikke har testet proceduren.
 
@@ -71,18 +71,18 @@ Hoveddialogen er programmeret i en SFC, single-file component, Virksomhedmain.vu
 Der er ingen login side.
 
 ## Backend
-I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at under operationerne.
+I backend er HotChocolate GraphQL brugt som præsentation af domænet med de fire operationer oprette, redigere og slette en virksomhed samt liste alle virksomheder. Backend gemmer virksomhederne i en SQlite database, hvor den bruger Microsoft Entity Framework Core til at udføre operationerne med.
 
 Backend er struktureret i stil med en clean code folder struktur:
 	Core
-		Application - Virksomheds operationer
-		Domain - Entiteten Virksomhed
+		Application - Virksomheds operationer i VirksimhedCrud.cs
+		Domain - Entiteten Virksomhed Virksomhed.cs
  	Gateways
-		CVRAPI - Integration til web-sitet cvrapi.dk
-		Dal - Data access layer med db context og virksomhed dao, data access object
-		Repository - Entity Framework Core operationer at liste, oprette, rediger og slette virksomheder i databasen
+		CVRAPI - Integration til web-sitet cvrapi.dk i Cvrapi.cs
+		Dal - Data access layer med AppDbContext.cs og VirksomhedDao.cs med data access object
+		Repository - Entity Framework Core operationer at liste, oprette, rediger og slette virksomheder i databasen i VirksomhedRepository.cs
  	Presenters
-		Types - GraphQL forespørgsler Query og Mutation
+		Types - GraphQL forespørgsler Query.cs og Mutationcs samt input type og payload i VirksomhedInType.cs
 
 I Program.cs finder man opsætningen af backend herunder at tillade alle former for adgange mht. CORS, Cross-Origin Resource sharing. Der er ingen sikring af adgang.
 
