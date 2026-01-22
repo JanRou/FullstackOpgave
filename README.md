@@ -40,6 +40,7 @@ Stakken i løsningen har Vue i toppen som frontend mod brugeren implementeret i 
 
 ## Sådan kommer du i gang
 Du bør have følgende klar:
+
 	* Visual Studio Code
 	* Internet adgang for at oprette nye virksomheder
 	* Eventuelt Visual Studio, som jeg har brugt
